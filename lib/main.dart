@@ -25,6 +25,9 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initPlatformState();
+    setState(() {
+      _steps = '0';
+    });
   }
 
   void onStepCount(StepCount event) {
@@ -58,9 +61,7 @@ class _MyAppState extends State<MyApp> {
 
   void initPlatformState() {
     _pedestrianStatusStream = Pedometer.pedestrianStatusStream;
-    _pedestrianStatusStream
-        .listen(onPedestrianStatusChanged)
-        .onError(onPedestrianStatusError);
+    _pedestrianStatusStream.listen(onPedestrianStatusChanged).onError(onPedestrianStatusError);
 
     _stepCountStream = Pedometer.stepCountStream;
     _stepCountStream.listen(onStepCount).onError(onStepCountError);
@@ -101,16 +102,14 @@ class _MyAppState extends State<MyApp> {
                 _status == 'walking'
                     ? Icons.directions_walk
                     : _status == 'stopped'
-                    ? Icons.accessibility_new
-                    : Icons.error,
+                        ? Icons.accessibility_new
+                        : Icons.error,
                 size: 100,
               ),
               Center(
                 child: Text(
                   _status,
-                  style: _status == 'walking' || _status == 'stopped'
-                      ? TextStyle(fontSize: 30)
-                      : TextStyle(fontSize: 20, color: Colors.red),
+                  style: _status == 'walking' || _status == 'stopped' ? TextStyle(fontSize: 30) : TextStyle(fontSize: 20, color: Colors.red),
                 ),
               )
             ],
